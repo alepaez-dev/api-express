@@ -42,6 +42,26 @@ app.get("/files-promises", (request, response) => {
   })
 })
 
+
+/**
+ * Reglas async/await
+ * Async era para hacer una funcion asincrona -> todo lo de adentro de la fn va a ser async
+ * Await se usaba dentro de esa funcion para esperar una promesa
+ */
+// Ejercicio
+// Endpoint que lea text1.txt con async/await
+
+app.get("/file-async-await", async (request, response) => {
+  try {
+    const files = await fsPromise.readFile("text1.txt", "utf8")
+    response.write(files)
+    response.end()
+  } catch(error) {
+    response.write(error)
+    response.end()
+  }
+})
+
 app.listen(8080, () => {
   console.log("Server is listening ...")
 })
