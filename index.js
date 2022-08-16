@@ -1,5 +1,6 @@
 const express = require("express")
-const fs = require("fs")
+const fs = require("fs") // Callback
+const fsPromise = require("fs/promises") // Promises
 
 const app = express()
 
@@ -24,6 +25,19 @@ app.get("/files-callbacks", (request, response) => {
       response.end()
     }
     response.write(data)
+    response.end()
+  })
+})
+
+// Then y catch
+app.get("/files-promises", (request, response) => {
+  fsPromise.readFile("text1.txt", "utf8")
+  .then((data) => {
+    response.write(data)
+    response.end()
+  })
+  .catch((error) => {
+    response.write(error)
     response.end()
   })
 })
