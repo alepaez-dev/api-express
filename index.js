@@ -17,38 +17,12 @@ app.get("/", (request, response) => {
  * 3 -> async/await
  */
 
-// Callback
-app.get("/files-callbacks", (request, response) => {
-  fs.readFile("text1.txt", "utf8", (err, data) => {
-    if(err) {
-      response.write("Hubo un error")
-      response.end()
-    }
-    response.write(data)
-    response.end()
-  })
-})
-
-// Then y catch
-app.get("/files-promises", (request, response) => {
-  fsPromise.readFile("text1.txt", "utf8")
-  .then((data) => {
-    response.write(data)
-    response.end()
-  })
-  .catch((error) => {
-    response.write(error)
-    response.end()
-  })
-})
-
-
 /**
  * Reglas async/await
  * Async era para hacer una funcion asincrona -> todo lo de adentro de la fn va a ser async
  * Await se usaba dentro de esa funcion para esperar una promesa
  */
-// Ejercicio
+// Ejercicios
 // Endpoint que lea text1.txt con async/await
 
 app.get("/file-async-await", async (request, response) => {
@@ -62,6 +36,49 @@ app.get("/file-async-await", async (request, response) => {
   }
 })
 
+// Endpoints koders
+// recurso/identicador -> koders
+
+/**
+ * 1 - PATH PARAM -> identificadores -> modifican la ruta del lado de back
+ * /recurso/identificador -> /koders/:id
+ * 2 - QUERY PARAM -> no cambian la ruta
+ * ?ciudad=Gdl&municipio=
+ */
+app.get("/koders", async (request, response) => {
+  console.log("request", request)
+
+  const { query } = request
+  console.log("modulo", query.modulo)
+  const db = await fsPromise.readFile("koders.json", "utf8") 
+  const parsedDB = JSON.parse(db)
+  response.json(parsedDB.koders)
+})
+
+// Recibir un koder en especifico con el id
+app.get("/koders/:id", async (request, response) => {
+  // Path params
+  const { params } = request
+
+  // DB
+  const db = await fsPromise.readFile("koders.json", "utf8")
+  const parsedDB = JSON.parse(db)
+
+  // Filtramos para encontrar al koder con identiciador 2
+  const foundKoder = parsedDB.koders.filter((koder) => koder.id === Number(params.id))
+
+  // Respondemos
+  response.json(foundKoder[0])
+})
+
 app.listen(8080, () => {
   console.log("Server is listening ...")
 })
+
+/**
+ * Tarea: 
+ * En el endpoint de enlistar koders, recibir modulo como query params
+ * y regresar todos los koders que tengan ese modulo
+ * 
+ * []
+ */
