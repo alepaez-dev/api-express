@@ -39,20 +39,31 @@ app.get("/file-async-await", async (request, response) => {
 // Endpoints koders
 // recurso/identicador -> koders
 
+
 /**
  * 1 - PATH PARAM -> identificadores -> modifican la ruta del lado de back
  * /recurso/identificador -> /koders/:id
- * 2 - QUERY PARAM -> no cambian la ruta
+ * 2 - QUERY PARAM -> no cambian la ruta -> /koders
  * ?ciudad=Gdl&municipio=
  */
 app.get("/koders", async (request, response) => {
-  console.log("request", request)
 
+  // Destructurando
   const { query } = request
-  console.log("modulo", query.modulo)
+
+  // Si el cliente no me manda algo me regrese todos los koders
   const db = await fsPromise.readFile("koders.json", "utf8") 
   const parsedDB = JSON.parse(db)
-  response.json(parsedDB.koders)
+
+  // Filtrado dinamico
+  if(Object.keys(query).length) {
+    // Significa que no es 0 y le mandamos una query o mas en el cliente
+    const kodersFound = parsedDB.koders.filter(koder => koder.modulo === query.modulo)
+    response.json(kodersFound)
+  } else {
+    // Significa que es 0
+    response.json(parsedDB.koders)
+  }
 })
 
 // Recibir un koder en especifico con el id
@@ -65,10 +76,10 @@ app.get("/koders/:id", async (request, response) => {
   const parsedDB = JSON.parse(db)
 
   // Filtramos para encontrar al koder con identiciador 2
-  const foundKoder = parsedDB.koders.filter((koder) => koder.id === Number(params.id))
+  const foundKoder = parsedDB.koders.filter((koder) => koder.id === Number(params.id))[0]
 
   // Respondemos
-  response.json(foundKoder[0])
+  response.json(foundKoder)
 })
 
 app.listen(8080, () => {
