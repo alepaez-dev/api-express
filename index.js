@@ -34,13 +34,13 @@ app.post("/koders", async (request, response) => {
     ...body
   }
 
-  // Agregar el koder en lo que ya teniamos
+  // Agregar el koder a lo que ya teniamos
   parsedBD.koders.push(newKoder)
 
   // Crear koder en la base de datos
   await fsPromise.writeFile("koders.json", JSON.stringify(parsedBD, "\n", 2), "utf8")
 
-  // Respondemos con el Koder creado
+  // Respondemos con el Koder creado o estatus de exitoso
   response.status(201)
   response.json({ success: true })
 })
