@@ -47,10 +47,20 @@ app.post("/koders", async (request, response) => {
 
 // Ejercicio
 // PUT -> me van a reemplazar el koder
-// PATH PARAM -> id
-// BODY -> data que tienen que reeemplazar
+// PATH PARAM -> id -> 2
+// BODY -> data con la que van a reeemplazar
 // REFLEJAr -> en su bd -> koders.json
 // findIndex 
+
+// Tarea
+// PATCH -> solo actualizar lo que el cliente diga
+/**
+ * Ruta: PATCH -> /koders/1
+ * Body: { name: "Alejandra" }
+ * 
+ * Resultado esperado : que al koder con id 1 SOLO le cambie el nombre, si se le manda mas tmb eso
+ * Respuesta esperada : El koder con sus nuevos cambios
+ */
 
 // Leer archivo
 /**
