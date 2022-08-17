@@ -2,13 +2,55 @@ const express = require("express")
 const fs = require("fs") // Callback
 const fsPromise = require("fs/promises") // Promises
 
+/**
+ * GET
+ * POST
+ * PUT
+ * PATCH
+ * DELETE
+ */
 const app = express()
+
+// Middlewares
+app.use(express.json()) // parseando a json
 
 // Endpoint de bienvenida
 app.get("/", (request, response) => {
   response.write("Bienvenida a nuesta api de express")
   response.end()
 })
+
+app.post("/koders", async (request, response) => {
+  // Recibimos el body que nos manda el cliente
+  const { body } = request
+
+  // Acceder nuestra bd
+  const bd = await fsPromise.readFile("koders.json", "utf8")
+  const parsedBD = JSON.parse(bd)
+
+  // Koder a crear
+  const newKoder = {
+    id: parsedBD.koders.length + 1,
+    ...body
+  }
+
+  // Agregar el koder en lo que ya teniamos
+  parsedBD.koders.push(newKoder)
+
+  // Crear koder en la base de datos
+  await fsPromise.writeFile("koders.json", JSON.stringify(parsedBD, "\n", 2), "utf8")
+
+  // Respondemos con el Koder creado
+  response.status(201)
+  response.json({ success: true })
+})
+
+// Ejercicio
+// PUT -> me van a reemplazar el koder
+// PATH PARAM -> id
+// BODY -> data que tienen que reeemplazar
+// REFLEJAr -> en su bd -> koders.json
+// findIndex 
 
 // Leer archivo
 /**
@@ -25,19 +67,7 @@ app.get("/", (request, response) => {
 // Ejercicios
 // Endpoint que lea text1.txt con async/await
 
-app.get("/file-async-await", async (request, response) => {
-  try {
-    const files = await fsPromise.readFile("text1.txt", "utf8")
-    response.write(files)
-    response.end()
-  } catch(error) {
-    response.write(error)
-    response.end()
-  }
-})
 
-// Endpoints koders
-// recurso/identicador -> koders
 
 
 /**
@@ -46,25 +76,6 @@ app.get("/file-async-await", async (request, response) => {
  * 2 - QUERY PARAM -> no cambian la ruta -> /koders
  * ?ciudad=Gdl&municipio=
  */
-app.get("/koders", async (request, response) => {
-
-  // Destructurando
-  const { query } = request
-
-  // Si el cliente no me manda algo me regrese todos los koders
-  const db = await fsPromise.readFile("koders.json", "utf8") 
-  const parsedDB = JSON.parse(db)
-
-  // Filtrado dinamico
-  if(Object.keys(query).length) {
-    // Significa que no es 0 y le mandamos una query o mas en el cliente
-    const kodersFound = parsedDB.koders.filter(koder => koder.modulo === query.modulo)
-    response.json(kodersFound)
-  } else {
-    // Significa que es 0
-    response.json(parsedDB.koders)
-  }
-})
 
 // Recibir un koder en especifico con el id
 app.get("/koders/:id", async (request, response) => {

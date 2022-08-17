@@ -98,6 +98,41 @@
       "modulo": "React",
       "generacion": "21Js",
       "edad": 25
+    },
+    {
+      "id": 15,
+      "name": "Alejandra",
+      "modulo": "React",
+      "edad": 26,
+      "generacion": "20Js"
+    },
+    {
+      "id": 16,
+      "name": "Alfredo",
+      "modulo": "Backend",
+      "edad": 26,
+      "generacion": "20Js"
+    },
+    {
+      "id": 17,
+      "name": "Angel",
+      "modulo": "Backend",
+      "edad": 26,
+      "generacion": "20Js"
+    },
+    {
+      "id": 18,
+      "name": "Ferdinand",
+      "modulo": "Javascript",
+      "edad": 26,
+      "generacion": "20Js"
+    },
+    {
+      "id": 19,
+      "name": "Ferdinand",
+      "modulo": "Javascript",
+      "edad": 26,
+      "generacion": "20Js"
     }
   ]
 }
