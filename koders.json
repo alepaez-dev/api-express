@@ -5,7 +5,7 @@
       "id": 1,
       "name": "Adrian",
       "modulo": "Backend",
-      "generacion": "20Js",
+      "generacion": "19Js",
       "edad": 25
     },
     {
@@ -13,13 +13,6 @@
       "name": "Araceli",
       "modulo": "React",
       "generacion": "19Js",
-      "edad": 25
-    },
-    {
-      "id": 3,
-      "name": "Breeze",
-      "modulo": "AWS",
-      "generacion": "18Js",
       "edad": 25
     },
     {
@@ -122,13 +115,6 @@
     },
     {
       "id": 18,
-      "name": "Ferdinand",
-      "modulo": "Javascript",
-      "edad": 26,
-      "generacion": "20Js"
-    },
-    {
-      "id": 19,
       "name": "Ferdinand",
       "modulo": "Javascript",
       "edad": 26,

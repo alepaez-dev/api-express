@@ -103,6 +103,24 @@ app.get("/koders/:id", async (request, response) => {
   response.json(foundKoder)
 })
 
+app.delete("/koders/:id", async (request, response) => {
+  // Path params
+  const { params } = request
+
+  // Acceder a la bd
+  const bd = await fsPromise.readFile("koders.json", "utf8")
+  const parsedBD = JSON.parse(bd) // Manejar el json
+
+  const kodersQueSeQuedan = parsedBD.koders.filter(koder => koder.id !== Number(params.id))
+  parsedBD.koders = kodersQueSeQuedan
+
+  // Escribir en nuestra BD
+  await fsPromise.writeFile("koders.json", JSON.stringify(parsedBD, "\n", 2), "utf8")
+
+  // Respuesta
+  response.json({ success: true })
+})
+
 app.listen(8080, () => {
   console.log("Server is listening ...")
 })
