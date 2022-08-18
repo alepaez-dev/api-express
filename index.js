@@ -18,7 +18,7 @@ app.use(express.json()) // parseando a json
 // Global
 
 // Middleware 1
-app.use((request, response, next) => {
+const middlewareGlobal = (request, response, next) => {
   // Toda la logica de mi middleware
   console.log("Estoy en mi middleware 1")
   console.log("body", request.body)
@@ -27,10 +27,11 @@ app.use((request, response, next) => {
 
   // Puedes continuar
   next()
-})
+}
+app.use(middlewareGlobal)
 
 // Middleware 2
-const middleware2 = (request, response, next) => {
+const middlewareDePost = (request, response, next) => {
   console.log("Estoy en mi middleware 2")
   next()
 }
@@ -41,7 +42,7 @@ app.get("/", (request, response) => {
   response.end()
 })
 
-app.post("/koders", middleware2 , async (request, response) => {
+app.post("/koders", middlewareDePost , async (request, response) => {
   // Recibimos el body que nos manda el cliente
   const { body } = request
 
