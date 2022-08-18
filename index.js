@@ -1,6 +1,7 @@
 const express = require("express")
 const fs = require("fs") // Callback
 const fsPromise = require("fs/promises") // Promises
+const { userInfo } = require("os")
 
 /**
  * GET
@@ -14,13 +15,33 @@ const app = express()
 // Middlewares
 app.use(express.json()) // parseando a json
 
+// Global
+
+// Middleware 1
+app.use((request, response, next) => {
+  // Toda la logica de mi middleware
+  console.log("Estoy en mi middleware 1")
+  console.log("body", request.body)
+
+  // Para verificar que un usuario este autenticado
+
+  // Puedes continuar
+  next()
+})
+
+// Middleware 2
+const middleware2 = (request, response, next) => {
+  console.log("Estoy en mi middleware 2")
+  next()
+}
+
 // Endpoint de bienvenida
 app.get("/", (request, response) => {
   response.write("Bienvenida a nuesta api de express")
   response.end()
 })
 
-app.post("/koders", async (request, response) => {
+app.post("/koders", middleware2 , async (request, response) => {
   // Recibimos el body que nos manda el cliente
   const { body } = request
 
